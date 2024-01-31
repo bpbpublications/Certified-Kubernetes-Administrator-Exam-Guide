@@ -1,0 +1,58 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cka-netpol-allow-app
+  namespace: netpol
+spec:
+  podSelector:
+    matchLabels:
+      netpol: app
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: default
+    ports:
+    - protocol: TCP
+      port: 80
+  egress:
+  - ports:
+    - protocol: TCP
+      port: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cka-netpol-allow-cache
+  namespace: netpol
+spec:
+  podSelector:
+    matchLabels:
+      netpol: cache
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+         matchLabels:
+           netpol: app
+    ports:
+    - protocol: TCP
+      port: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cka-netpol-allow-test-client
+  namespace: default
+spec:
+  podSelector: {}    # Allow all pods egress in default ns
+  policyTypes:
+  - Egress
+  egress:
+  - ports:
+    - protocol: TCP
+      port: 80

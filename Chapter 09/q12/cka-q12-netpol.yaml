@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: web-q12-netpol
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: cka-q12
+      type: web
+  policyTypes:
+    - Ingress
+  ingress:
+    - ports:
+        - protocol: TCP
+          port: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-q12-netpol
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: cka-q12
+      type: api
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: cka-q12
+              type: web
+      ports:
+        - protocol: TCP
+          port: 8080

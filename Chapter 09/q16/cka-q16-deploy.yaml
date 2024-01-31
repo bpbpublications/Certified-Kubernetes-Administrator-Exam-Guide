@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: cka-deploy
+  name: cka-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cka-deploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: cka-deploy
+    spec:
+      containers:
+        - image: nginx:alpine
+          name: nginx
+          volumeMounts:
+            - name: cka-q16-vol
+              mountPath: /cka/data
+          resources: {}
+      volumes:
+        - name: cka-q16-vol
+          persistentVolumeClaim:
+            claimName: cka-pvc

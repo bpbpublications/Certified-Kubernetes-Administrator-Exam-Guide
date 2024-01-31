@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multi-container
+  labels:
+    app: multi-container
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: multi-container
+  template:
+    metadata:
+      labels:
+        app: multi-container
+    spec:
+      volumes:
+        - name: cka-volume
+          hostPath:
+            path: /var/local/data/web
+            type: DirectoryOrCreate
+      initContainers:
+        - name: init-output
+          image: busybox
+          command: ["sh", "-c", "echo init container output"]
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /data
+              name: cka-volume

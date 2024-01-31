@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: voyager
+  name: voyager
+  namespace: space
+spec:
+  containers:
+    - image: httpd
+      name: voyager
+      resources: {}
+      env:
+        - name: APP
+          valueFrom:
+            configMapKeyRef:
+              name: cm-7
+              key: app
+        - name: EXAM
+          valueFrom:
+            configMapKeyRef:
+              name: cm-7
+              key: exam
+      volumeMounts:
+        - name: cka-q8
+          mountPath: "/cka-Q8/data"
+  volumes:
+    - name: cka-q8
+      configMap:
+        name: cm-8
+        items:
+          - key: tier1
+            path: tier1
+          - key: tier2
+            path: tier2
+          - key: tier3
+            path: tier3
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

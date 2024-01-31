@@ -1,0 +1,10 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: cka-netpol-deny-all
+  namespace: netpol
+spec:
+  podSelector: {} # {} means all pods
+  policyTypes:
+    - Ingress
+    - Egress

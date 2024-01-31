@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cka-netpol-app
+  namespace: netpol
+  labels:
+    netpol: app
+spec:
+  selector:
+    matchLabels:
+      netpol: app
+  template:
+    metadata:
+      labels:
+        netpol: app
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cka-netpol-cache
+  namespace: netpol
+  labels:
+    netpol: cache
+spec:
+  selector:
+    matchLabels:
+      netpol: cache
+  template:
+    metadata:
+      labels:
+        netpol: cache
+    spec:
+      containers:
+        - image: nginx
+          name: cache-mockup
+          ports:
+            - containerPort: 80

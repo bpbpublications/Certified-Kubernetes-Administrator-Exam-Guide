@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cka-q4-deploy
+  namespace: cka-exam
+  labels:
+    app: cka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cka
+  template:
+    metadata:
+      labels:
+        app: cka
+    spec:
+      containers:
+        - name: httpd
+          image: httpd:alpine
+          ports:
+            - containerPort: 80

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: control-plane-pod
+  name: control-plane-pod
+spec:
+  nodeName: clusterq6-controlplane
+  tolerations:
+    - effect: NoSchedule
+      key: node-role.kubernetes.io/control-plane
+  containers:
+    - image: httpd
+      name: control-plane-pod
+      resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cka-q16-httpd # update name
+  labels:
+    app: cka-q16-httpd # update label
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cka-q16-httpd # update label
+  template:
+    metadata:
+      labels:
+        app: cka-q16-httpd
+    spec:
+      initContainers:
+        - name: init-cka-q16-httpd
+          image: busybox
+          command: ["sh", "-c", "sleep 10"]
+      containers:
+        - name: httpd
+          image: httpd
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
+          livenessProbe:
+            exec:
+              command:
+                - "true"

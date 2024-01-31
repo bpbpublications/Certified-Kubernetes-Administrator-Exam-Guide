@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-app
+  namespace: test
+spec:
+  initContainers:
+    - name: init-busybox
+      image: busybox
+      args: ["sh", "-c", "date > /app/data/date"]
+      volumeMounts:
+        - name: cka-volume
+          mountPath: /app/data
+  containers:
+    - name: nginx
+      image: nginx:alpine
+      args: ["sh", "-c", "cat /app/data/date && sleep 6000"]
+      volumeMounts:
+        - name: cka-volume
+          mountPath: /app/data
+  volumes:
+    - name: cka-volume
+      emptyDir: {}

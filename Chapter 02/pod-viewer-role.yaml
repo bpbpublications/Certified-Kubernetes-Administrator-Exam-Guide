@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: pv-ns
+  name: pod-viewer-role
+rules:
+  - apiGroups: [""] # "" indicates the core API Group
+    resources: ["pods"]
+    verbs: ["get", "list"]

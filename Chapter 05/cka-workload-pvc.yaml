@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cka-workload-pvc
+  labels:
+    workload: nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      workload: nginx
+  template:
+    metadata:
+      labels:
+        workload: nginx
+    spec:
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: cka-simple-pvc
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /data
+              name: my-volume
